@@ -1,4 +1,4 @@
-https://user-images.githubusercontent.com/58168783/102029257-58fee300-3de0-11eb-9403-55d33f490519.png
+![beginner-front-end](https://user-images.githubusercontent.com/58168783/102029257-58fee300-3de0-11eb-9403-55d33f490519.png)
 
 # beginner-front-end
 
