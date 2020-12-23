@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-sm-12 col-xl-9">
       <header class="row sticky-top bg-white py-4 shadow">
-        <div class="col-3 col-md-1 mb-3">
+        <div class="col-3 col-md-1">
           <Navbar />
         </div>
         <div class="col-9 col-md-7 text-center">
           <h2 class="font-weight-bold">Food Items</h2>
         </div>
-        <div class="col-12 col-md-4 d-flex justify-content-end  mb-3">
+        <div class="col-12 col-md-4 d-flex justify-content-end">
           <form action="#" class="form-inline my-2 my-lg-0">
             <input
               v-model="srcName.nama"
@@ -21,44 +21,45 @@
           <button class="btn" @click="searchName()">
             <img src="../assets/search.png" alt="" />
           </button>
+          <button class="btn" @click="filterOn()">
+            <img src="../assets/filter.png" alt="" />
+          </button>
         </div>
-
-        <div class="col-12 text-center border-top pt-3">
-              <h3 class="col-12">Filter</h3>
-              <div class="row">
-                <div class="col-6 col-md-3 d-flex justify-content-center mt-3">
-                  <h5>Name</h5>
-                  <select class="form-select ml-3" aria-label="Default select example" v-model="search.nama" @click="searchProduct()">
-                    <option selected></option>
-                    <option value="ASC">A - Z</option>
-                    <option value="DESC">Z - A</option>
-                  </select>
-                </div>
-                <div class="col-6 col-md-3 d-flex justify-content-center mt-3">
-                  <h5>Price</h5>
-                  <select class="form-select ml-3" aria-label="Default select example" v-model="search.harga" @click="searchProduct()">
-                    <option selected></option>
-                    <option value="DESC">High</option>
-                    <option value="ASC">Low</option>
-                  </select>
-                </div>
-                <div class="col-6 col-md-3 d-flex justify-content-center mt-3">
-                  <h5>Category</h5>
-                  <select class="form-select ml-3" aria-label="Default select example" v-model="search.kategori" @click="searchProduct()">
-                    <option selected></option>
-                    <option value="ASC">Drinks</option>
-                    <option value="DESC">Foods</option>
-                  </select>
-                </div>
-                <div class="col-6 col-md-3 d-flex justify-content-center  mt-3">
-                  <h5>Products</h5>
-                  <select class="form-select ml-3" aria-label="Default select example" v-model="search.terbaru" @click="searchProduct()">
-                    <option selected></option>
-                    <option value="DESC">New</option>
-                    <option value="ASC">Old</option>
-                  </select>
-                </div>
-              </div>
+        <div v-if="filter" class="col-12 text-center border-top pt-3 mt-3">
+          <div class="row">
+            <div class="col-6 col-md-3 d-flex justify-content-center mt-3">
+              <h5>Name</h5>
+              <select class="form-select ml-3" aria-label="Default select example" v-model="sorted.nama" @click="sortedProduct()">
+                <option selected></option>
+                <option value="ASC">A - Z</option>
+                <option value="DESC">Z - A</option>
+              </select>
+            </div>
+            <div class="col-6 col-md-3 d-flex justify-content-center mt-3">
+              <h5>Price</h5>
+              <select class="form-select ml-3" aria-label="Default select example" v-model="sorted.harga" @click="sortedProduct()">
+                <option selected></option>
+                <option value="DESC">High</option>
+                <option value="ASC">Low</option>
+              </select>
+            </div>
+            <div class="col-6 col-md-3 d-flex justify-content-center mt-3">
+              <h5>Category</h5>
+              <select class="form-select ml-3" aria-label="Default select example" v-model="sorted.kategori" @click="sortedProduct()">
+                <option selected></option>
+                <option value="ASC">Drinks</option>
+                <option value="DESC">Foods</option>
+              </select>
+            </div>
+            <div class="col-6 col-md-3 d-flex justify-content-center  mt-3">
+              <h5>Products</h5>
+              <select class="form-select ml-3" aria-label="Default select example" v-model="sorted.terbaru" @click="sortedProduct()">
+                <option selected></option>
+                <option value="DESC">New</option>
+                <option value="ASC">Old</option>
+              </select>
+            </div>
+          </div>
         </div>
       </header>
       <main class="row pt-4 bg-light">
@@ -204,7 +205,7 @@ export default {
         total:null,
       },
       cashier: "inyiL",
-      search:{
+      sorted:{
         nama:'',
         kategori:'',
         terbaru:'',
@@ -213,13 +214,13 @@ export default {
       srcName:{
         nama:''
       },
+      filter: false,
     };
   },
   methods: {
-    searchProduct(){
+    sortedProduct(){
       axios
-      .get(process.env.VUE_APP_SEARCH + `/?nama=${this.search.nama}&kategori=${this.search.kategori}&terbaru=${this.search.terbaru}&harga=${this.search.harga}`)
-      // .get(`http://localhost:4000/search/`, this.search)
+      .get(process.env.VUE_APP_SEARCH + `/?nama=${this.sorted.nama}&kategori=${this.sorted.kategori}&terbaru=${this.sorted.terbaru}&harga=${this.sorted.harga}`)
       .then((res) => {
         this.datas = null;
         this.datas = res.data.result;
@@ -283,6 +284,14 @@ export default {
     cencel() {
       this.chart = [];
     },
+    filterOn() {
+      this.filter = !this.filter;
+      this.sorted.nama = '';
+      this.sorted.kategori = '';
+      this.sorted.terbaru = '';
+      this.sorted.harga = '';
+      this.sortedProduct();
+    },
   },
   computed: {
     addItem() {
@@ -298,7 +307,7 @@ export default {
     },
   },
   mounted() {
-    this.searchProduct()
+    this.sortedProduct()
     this.searchName()
   },
 };

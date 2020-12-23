@@ -72,92 +72,95 @@
                 </div>
               </div>
             </div>
-            <table class="table text-center">
-              <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Name Product</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Category ID</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="product in products" :key="product.id">
-                  <th scope="row">{{product.id}}</th>
-                  <td>{{product.nama}}</td>
-                  <td>{{product.harga}}</td>
-                  <td>{{product.kategori_id}}</td>
-                  <td>
-                    <!-- Button trigger modal Edit Product -->
-                    <button
-                      type="button"
-                      class="btn btn-warning"
-                      data-toggle="modal"
-                      data-target="#modalEditProduct"
-                      @click="editProduct(product)"
-                    >
-                      Edit
-                    </button>
+            <div class="table-responsive">
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Category ID</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="product in products" :key="product.id">
+                    <th scope="row">{{product.id}}</th>
+                    <td>{{product.nama}}</td>
+                    <td>{{product.harga}}</td>
+                    <td>{{product.kategori_id}}</td>
+                    <td>
+                      <!-- Button trigger modal Edit Product -->
+                      <button
+                        type="button"
+                        class="btn btn-warning"
+                        data-toggle="modal"
+                        data-target="#modalEditProduct"
+                        @click="editProduct(product)"
+                      >
+                        Edit
+                      </button>
 
-                    <!-- Modal Edit Product -->
-                    <div
-                      class="modal fade"
-                      id="modalEditProduct"
-                      tabindex="-1"
-                      role="dialog"
-                      aria-labelledby="modalEditProductTitle"
-                      aria-hidden="true"
-                    >
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h3 class="modal-title" id="modalEditProductTitle">
-                              Edit Product
-                            </h3>
-                            <button
-                              type="button"
-                              class="close"
-                              data-dismiss="modal"
-                              aria-label="Close"
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
+                      <!-- Modal Edit Product -->
+                      <div
+                        class="modal fade"
+                        id="modalEditProduct"
+                        tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="modalEditProductTitle"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h3 class="modal-title" id="modalEditProductTitle">
+                                Edit Product
+                              </h3>
+                              <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                              >
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form class="modal-body text-left">
+                              <div class="form-group">
+                                <input type="hidden" v-model="formProduct.id" class="form-control" name="kategori_id" value="" required>
+                                <label for="nama" class="form-label">Name : </label>
+                                <input type="text" v-model="formProduct.nama" class="form-control" name="nama" value="" required>
+                                <label for="price" class="form-label">Price : </label>
+                                <input type="number" v-model="formProduct.harga" class="form-control" name="price" value="" required>
+                                <label for="url_img" class="form-label">Image : </label>
+                                <input type="text" v-model="formProduct.url_img" class="form-control" name="url_img" value="" required>
+                                <label for="kategori_id" class="form-label">Category : </label>
+                                <select class="form-select form-control" aria-label="Default select example" v-model="formProduct.kategori_id">
+                                  <option selected></option>
+                                  <option 
+                                    v-for="category in categories" :key="category.id"
+                                    :value=category.id
+                                  >
+                                    {{category.tipe}}
+                                  </option>
+                                </select>  
+                              </div>
+                              <div class="text-right">
+                                <button type="button" class="btn btn-warning" @click="updateProduct(formProduct)">Edit</button>
+                              </div>
+                            </form>
                           </div>
-                          <form class="modal-body text-left">
-                            <div class="form-group">
-                              <input type="hidden" v-model="formProduct.id" class="form-control" name="kategori_id" value="" required>
-                              <label for="nama" class="form-label">Name : </label>
-                              <input type="text" v-model="formProduct.nama" class="form-control" name="nama" value="" required>
-                              <label for="price" class="form-label">Price : </label>
-                              <input type="number" v-model="formProduct.harga" class="form-control" name="price" value="" required>
-                              <label for="url_img" class="form-label">Image : </label>
-                              <input type="text" v-model="formProduct.url_img" class="form-control" name="url_img" value="" required>
-                              <label for="kategori_id" class="form-label">Category : </label>
-                              <select class="form-select form-control" aria-label="Default select example" v-model="formProduct.kategori_id">
-                                <option selected></option>
-                                <option 
-                                  v-for="category in categories" :key="category.id"
-                                  :value=category.id
-                                >
-                                  {{category.tipe}}
-                                </option>
-                              </select>  
-                            </div>
-                            <div class="text-right">
-                              <button type="button" class="btn btn-warning" @click="updateProduct(formProduct)">Edit</button>
-                            </div>
-                          </form>
                         </div>
                       </div>
-                    </div>
-                    <button type="button" class="btn btn-danger ml-2" @click="delProduct(product)">
-                      Del
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <button type="button" class="btn btn-danger ml-2" @click="delProduct(product)">
+                        Del
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
           </div>
         </div>
         <div class="col-12 col-lg-4">
@@ -199,7 +202,7 @@
                   <form class="modal-body">
                     <div class="form-group">
                       <label for="tipe" class="form-label">Name Category : </label>
-                      <input type="text" v-model="formAddCategory.tipe" class="form-control" name="tipe" value="" required>
+                      <input type="text" v-model="formAddCategory.tipe" class="form-control" name="tipe">
                     </div>
                     <div class="text-right">
                       <button type="button" class="btn btn-primary" @click="addCategory(formAddCategory)">Add</button>
@@ -390,7 +393,7 @@ export default {
       .then(() => {
         this.loadCategories()
         this.formAddCategory.tipe=null
-        alert('Success Add Category!')
+        // alert('Success Add Category!')
       })
       .catch((err) => {
         console.log(err);

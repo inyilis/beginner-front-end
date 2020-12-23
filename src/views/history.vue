@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="row mt-3">
-        <div class="col card shadow">
+        <div class="col table-responsive card shadow">
           <h2 class="mt-3 ml-3">Recent Order</h2>
           <table class="table text-center">
             <thead>
@@ -73,11 +73,6 @@ export default {
       axios.get(process.env.VUE_APP_HISTORY)
       .then((res) => {
         this.histories = res.data.result;
-        // console.log(this.histories);
-        // console.log(process.env.VUE_APP_PRODUCT);
-        // console.log(process.env.VUE_APP_CATEGORY);
-        // console.log(process.env.VUE_APP_HISTORY);
-        // console.log(process.env.VUE_APP_SEARCH);
       })
       .catch((err) => {
         console.log(err);
