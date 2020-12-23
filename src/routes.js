@@ -7,6 +7,7 @@ import History from "./views/history"
 Vue.use(VueRoters)
 
 const mainRoters = new VueRoters({
+    mode: 'history',
     routes:
     [
         {
